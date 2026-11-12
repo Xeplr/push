@@ -1,6 +1,6 @@
 {
   "name": "@xeplr/push",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Web Push for xeplr apps — notifications on a phone or computer even when the app is closed: each person's devices, sending, and the routes to switch a device on or off",
   "main": "index.js",
   "files": [
