@@ -7,7 +7,7 @@ var VAPID = { publicKey: 'pub', privateKey: 'priv', subject: 'mailto:ops@x.com' 
 function setup(devices, failWith) {
   var sent = [], removed = [], warned = [];
   var store = {
-    devicesOf: async function(target) { return devices.filter(function(d) { return (target.userIds || []).indexOf(d.userId) !== -1 || (target.emails || []).indexOf(d.email) !== -1; }); },
+    devicesOf: async function(target) { if (target.everyone) return devices; return devices.filter(function(d) { return (target.userIds || []).indexOf(d.userId) !== -1 || (target.emails || []).indexOf(d.email) !== -1; }); },
     sent: async function() {},
     removeEndpoint: async function(e) { removed.push(e); }
   };
@@ -45,4 +45,11 @@ test('no keys: nothing sent, and why; no one to send to: nothing', async functio
   var w = setup([D(1, 'u1')]);
   assert.deepEqual(await w.send({}, { title: 'T' }), { devices: 0, sent: 0, removed: 0, failed: 0 });
   await assert.rejects(w.send({ userIds: ['u1'] }, {}), /needs a title/);
+});
+
+test('everyone: every device switched on, still never whoever did it', async function() {
+  var w = setup([D(1, 'u1', 'neha@x.com'), D(2, 'u2', 'riya@x.com'), D(3, 'u3', 'amit@x.com')]);
+  var out = await w.send({ everyone: true }, { title: 'New order #GA1' }, { except: { userIds: ['u2'] } });
+  assert.deepEqual(out, { devices: 2, sent: 2, removed: 0, failed: 0 });
+  assert.deepEqual(w.sent.map(function(s) { return s.endpoint; }).sort(), ['https://push.example/1', 'https://push.example/3']);
 });
