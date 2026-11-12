@@ -1,0 +1,53 @@
+{
+  "name": "@xeplr/push",
+  "version": "1.0.0",
+  "description": "Web Push for xeplr apps \u2014 notifications on a phone or computer even when the app is closed: each person's devices, sending, and the routes to switch a device on or off",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "lib/",
+    "migrations/",
+    "bin/"
+  ],
+  "keywords": [
+    "push",
+    "web-push",
+    "notifications",
+    "pwa",
+    "vapid",
+    "xeplr"
+  ],
+  "author": "xeplr",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Xeplr/push"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "xeplr-push": "bin/xeplr-push.js"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "web-push": "^3.6.7"
+  },
+  "peerDependencies": {
+    "express": "^4 || ^5",
+    "knex": ">=2"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "express": "^4.21.2"
+  }
+}
